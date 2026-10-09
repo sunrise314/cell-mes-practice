@@ -1,0 +1,23 @@
+# cell-mes-practice 本地开发基础设施
+# 与 ch02/ch11 对应：关系库 PostgreSQL（业务/追溯/SPC/Andon）；
+# 时序库 IoTDB 在本骨架中以 TimeSeriesStore 接口抽象（ch11 归档算法在应用层实现）。
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mes-postgres
+    environment:
+      POSTGRES_DB: cellmes
+      POSTGRES_USER: cellmes
+      POSTGRES_PASSWORD: cellmes_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - mes_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cellmes -d cellmes"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mes_pgdata:

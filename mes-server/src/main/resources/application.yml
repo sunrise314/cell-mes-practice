@@ -1,0 +1,48 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: mes-server
+  # ch03：业务层开启虚拟线程；HikariCP minimumIdle=maximumPoolSize 消除借出抖动 pin 问题
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    # stringtype=unspecified：允许 MyBatis 以字符串写入 JSONB 列（substitutes/process_params 等）
+    url: jdbc:postgresql://${MES_DB_HOST:localhost}:${MES_DB_PORT:5433}/${MES_DB_NAME:cellmes}?stringtype=unspecified
+    username: ${MES_DB_USER:cellmes}
+    password: ${MES_DB_PASS:cellmes_dev}
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 50
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+
+mes:
+  # ch06：CTE 递归深度上限（防环无限递归）
+  trace:
+    max-recursion-depth: 20
+  # ch07：微停阈值（分钟）
+  oee:
+    micro-stop-threshold-min: 5
+  # ch10：化成容量三档拦截阈值（Ah）
+  formation:
+    spec-lower: 275.0
+    pass-upper: 280.0
+  # ch09：SLA 升级链上限（最多升 3 级）
+  andon:
+    max-escalations: 3
+
+logging:
+  level:
+    com.cellmes: INFO

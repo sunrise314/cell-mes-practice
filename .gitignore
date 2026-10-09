@@ -1,0 +1,43 @@
+# Gradle
+*.gradle
+*.gradlew
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Java
+*.class
+*.jar
+target/
+
+# Docker / local data
+docker-compose.override.yml
+_mes_pgdata/
+*.log
+
+# Node（如果前端子模块）
+node_modules/
+.output/
+.dist/
+
+# 本地环境变量
+.env
+.env.local
+
+# Testcontainers / 临时文件
+*.tmp
+*.bak
+bootrun.log
